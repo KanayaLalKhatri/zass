@@ -1,0 +1,14 @@
+1:"$Sreact.fragment"
+2:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"Navbar"]
+3:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"Hero"]
+4:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"Brands"]
+5:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"About"]
+6:I[91921,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"default"]
+7:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"WhyUs"]
+8:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"Contact"]
+9:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"Footer"]
+a:I[12539,["/zass/_next/static/chunks/158myu8e_yme3.js","/zass/_next/static/chunks/3zf4yrw_eot0x.js","/zass/_next/static/chunks/2ixjtk8_ij4rm.js"],"WhatsAppFab"]
+b:I[97367,["/zass/_next/static/chunks/158myu8e_yme3.js"],"OutletBoundary"]
+c:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[[["$","$L2",null,{}],["$","main",null,{"className":"flex-1","children":[["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{}],["$","$L6",null,{}],["$","$L7",null,{}],["$","$L8",null,{}]]}],["$","$L9",null,{}],["$","$La",null,{}]],[["$","script","script-0",{"src":"/zass/_next/static/chunks/3zf4yrw_eot0x.js","async":true}],["$","script","script-1",{"src":"/zass/_next/static/chunks/2ixjtk8_ij4rm.js","async":true}]],["$","$Lb",null,{"children":["$","$c",null,{"name":"Next.MetadataOutlet","children":"$@d"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"EkbJKPtsN18rtbpTCI26N"}
+d:null

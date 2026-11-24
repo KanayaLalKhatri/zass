@@ -1,0 +1,13 @@
+{
+  "name": "Zass Admin",
+  "short_name": "Zass Admin",
+  "start_url": "/zass/admin/",
+  "scope": "/zass/admin/",
+  "display": "standalone",
+  "background_color": "#fffaf1",
+  "theme_color": "#e8742a",
+  "icons": [
+    { "src": "/zass/admin-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/zass/admin-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

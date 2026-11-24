@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: "Zass — New & Used Laptops in Karachi | Apple, HP, Dell, Lenovo",
   description:
-    "Zass by Jimi Laptop Traders — new and used laptops from every brand: MacBook, HP, Dell, Lenovo, ASUS and Acer. Tested used laptops, warranty and honest prices in Karachi.",
+    "Zass by Jimmy Laptop Traders — new and used laptops from every brand: MacBook, HP, Dell, Lenovo, ASUS and Acer. Tested used laptops, warranty and honest prices in Karachi.",
   keywords: [
     "laptop shop Karachi",
     "used laptops Karachi",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "HP laptop",
     "Lenovo ThinkPad",
     "Zass",
-    "Jimi Laptop Traders",
+    "Jimmy Laptop Traders",
   ],
   alternates: { canonical: SITE },
   openGraph: {

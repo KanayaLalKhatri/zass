@@ -5,12 +5,12 @@
 
 export const shop = {
   name: "Zass",
-  owner: "Jimi Laptop Traders",
+  owner: "Jimmy Laptop Traders",
   tagline: "Every brand. New & used. Tested and trusted.",
   intro:
-    "Zass by Jimi Laptop Traders brings every major laptop brand under one roof — Apple MacBook, HP, Dell, Lenovo, ASUS and Acer. Brand-new sealed pieces and carefully tested used laptops, at honest prices, with warranty and after-sale support.",
+    "Zass by Jimmy Laptop Traders brings every major laptop brand under one roof — Apple MacBook, HP, Dell, Lenovo, ASUS and Acer. Brand-new sealed pieces and carefully tested used laptops, at honest prices, with warranty and after-sale support.",
   about: [
-    "Jimi Laptop Traders has been helping students, freelancers, professionals and businesses find the right laptop at the right price. Zass is our showroom for every budget — from fresh, box-packed machines to premium used laptops.",
+    "Jimmy Laptop Traders has been helping students, freelancers, professionals and businesses find the right laptop at the right price. Zass is our showroom for every budget — from fresh, box-packed machines to premium used laptops.",
     "Every used laptop goes through a full check — battery health, keyboard, screen, ports, charging and a clean OS install — before it reaches our shelves. Bulk orders for offices and institutes are welcome.",
   ],
   contactPerson: "Muhammad Ali Brohi",

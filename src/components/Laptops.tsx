@@ -11,7 +11,7 @@ import { laptops, brands, brandColors, formatPKR, shop, type Laptop } from "@/da
 const conditions = ["All", "New", "Used"] as const;
 
 const waLink = (l: Laptop) =>
-  `https://wa.me/${shop.whatsapp}?text=${encodeURIComponent(`Hi Zazz! Is the ${l.name} (${l.condition}, ${formatPKR(l.price)}) available?`)}`;
+  `https://wa.me/${shop.whatsapp}?text=${encodeURIComponent(`Hi Zass! Is the ${l.name} (${l.condition}, ${formatPKR(l.price)}) available?`)}`;
 
 function Spec({ icon: Icon, text }: { icon: typeof Cpu; text: string }) {
   return (
@@ -33,7 +33,7 @@ export default function Laptops() {
 
   const chip = (on: boolean) =>
     `rounded-full border px-4 py-1.5 text-sm transition-colors ${
-      on ? "border-accent bg-accent text-background" : "border-border text-muted hover:border-accent hover:text-accent"
+      on ? "border-accent bg-accent text-white" : "border-border bg-card/85 text-foreground hover:border-accent hover:text-accent"
     }`;
 
   return (
@@ -73,11 +73,11 @@ export default function Laptops() {
               >
                 <div
                   className="relative flex h-48 items-center justify-center overflow-hidden rounded-t-2xl px-6"
-                  style={{ background: `radial-gradient(120% 100% at 50% 0%, ${from}33, transparent 65%), #0c0e16` }}
+                  style={{ background: `radial-gradient(120% 100% at 50% 0%, ${from}33, transparent 65%), #2f2c29` }}
                 >
                   <span
                     className={`absolute left-4 top-4 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold ${
-                      l.condition === "New" ? "bg-accent text-background" : "bg-amber-400 text-black"
+                      l.condition === "New" ? "bg-accent text-white" : "bg-amber-400 text-black"
                     }`}
                   >
                     {l.condition}
@@ -135,7 +135,7 @@ export default function Laptops() {
               <div className="grid items-center gap-6 md:grid-cols-2">
                 <div
                   className="flex items-center justify-center rounded-xl p-6"
-                  style={{ background: `radial-gradient(110% 90% at 50% 0%, ${brandColors[active.brand][0]}33, transparent 65%), #0c0e16` }}
+                  style={{ background: `radial-gradient(110% 90% at 50% 0%, ${brandColors[active.brand][0]}33, transparent 65%), #2f2c29` }}
                 >
                   <LaptopArt laptop={active} className="w-full" />
                 </div>

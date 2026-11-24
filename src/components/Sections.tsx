@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BadgeCheck, ShieldCheck, Wallet, Wrench, Phone, Mail, MapPin, Clock, type LucideIcon } from "lucide-react";
+import { BadgeCheck, ShieldCheck, Wallet, Wrench, Phone, MapPin, type LucideIcon } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
@@ -11,12 +11,27 @@ import { shop, brands, laptops, reasons, brandColors, formatPKR } from "@/data/s
 
 const wa = `https://wa.me/${shop.whatsapp}?text=${encodeURIComponent(shop.whatsappMessage)}`;
 
+export function ZassMark({ size = 38 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
+      <defs>
+        <linearGradient id="zassO" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f0883e" />
+          <stop offset="1" stopColor="#c9561c" />
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="48" fill="url(#zassO)" />
+      <path d="M30 28 H70 L40 66 H72" fill="none" stroke="#fff" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M26 74 Q52 60 80 66" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+      <path d="M34 82 Q56 70 78 75" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
+    </svg>
+  );
+}
+
 export function Logo() {
   return (
     <a href="#" className="flex items-center gap-2 text-lg font-extrabold">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-accent-2 font-mono text-lg text-background">
-        Z
-      </span>
+      <ZassMark size={38} />
       <span>
         {shop.name}
         <span className="ml-1.5 hidden font-mono text-[11px] font-normal text-muted sm:inline">by {shop.owner}</span>
@@ -28,7 +43,7 @@ export function Logo() {
 const links = [
   { href: "#laptops", label: "Laptops" },
   { href: "#brands", label: "Brands" },
-  { href: "#why", label: "Why Zazz" },
+  { href: "#why", label: "Why Zass" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
@@ -41,7 +56,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", on);
   }, []);
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled ? "border-b border-border bg-background/80 backdrop-blur-md" : ""}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 border-b border-border/60 backdrop-blur-md transition-all ${scrolled ? "bg-card/90 shadow-md" : "bg-card/70"}`}>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Logo />
         <ul className="hidden items-center gap-7 md:flex">
@@ -72,14 +87,14 @@ export function Hero() {
             Every <span className="gradient-text">laptop</span>.<br />
             <span className="gradient-text">New</span> & <span className="gradient-text">used</span>.
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">{shop.intro}</p>
+          <p className="mt-6 max-w-xl rounded-2xl bg-card/70 p-4 text-base leading-relaxed text-foreground/80 sm:text-lg">{shop.intro}</p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <a href="#laptops" className="rounded-md bg-accent px-7 py-3 font-semibold text-background">Browse Laptops</a>
-            <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-md border border-border px-7 py-3 hover:border-accent hover:text-accent">
+            <a href="#laptops" className="rounded-md bg-accent px-7 py-3 font-semibold text-white">Browse Laptops</a>
+            <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-md border border-border bg-card/85 px-7 py-3 hover:border-accent hover:text-accent">
               <FaWhatsapp size={18} /> Ask for a price
             </a>
           </div>
-          <div className="mt-14 flex flex-wrap gap-x-10 gap-y-5 border-t border-border pt-8">
+          <div className="mt-12 flex flex-wrap gap-x-10 gap-y-5 rounded-2xl border border-border bg-card/85 px-6 py-5 shadow-sm">
             {shop.stats.map((s) => (
               <div key={s.label}>
                 <div className="text-xl font-bold gradient-text sm:text-2xl">{s.value}</div>
@@ -136,7 +151,7 @@ const icons: Record<string, LucideIcon> = { BadgeCheck, ShieldCheck, Wallet, Wre
 export function WhyUs() {
   return (
     <section id="why" className="mx-auto max-w-6xl px-6 py-24">
-      <SectionHeading index="03" title="Why Zazz" />
+      <SectionHeading index="03" title="Why Zass" />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {reasons.map((r, i) => {
           const Icon = icons[r.icon];
@@ -174,11 +189,9 @@ export function About() {
 
 export function Contact() {
   const rows = [
-    { icon: Phone, label: "Call", value: shop.phone, href: `tel:${shop.phone.replace(/\s/g, "")}` },
-    { icon: FaWhatsapp, label: "WhatsApp", value: shop.phone, href: wa },
-    { icon: Mail, label: "Email", value: shop.email, href: `mailto:${shop.email}` },
-    { icon: MapPin, label: "Visit", value: shop.address },
-    { icon: Clock, label: "Hours", value: shop.hours },
+    { icon: FaWhatsapp, label: "Mobile / WhatsApp", value: shop.mobile, href: wa },
+    { icon: Phone, label: "Landline", value: shop.landline, href: `tel:${shop.landline.replace(/-/g, "")}` },
+    { icon: MapPin, label: "Visit the shop", value: shop.address },
   ];
   return (
     <section id="contact" className="mx-auto max-w-6xl px-6 py-24">
@@ -198,6 +211,7 @@ export function Contact() {
         <Reveal delay={0.1}>
           <div className="rounded-2xl border border-border bg-card p-6">
             <p className="font-mono text-xs uppercase tracking-widest text-accent">{shop.owner}</p>
+            <p className="mt-1 text-lg font-bold">{shop.contactPerson}</p>
             <div className="mt-4 space-y-4">
               {rows.map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-3">

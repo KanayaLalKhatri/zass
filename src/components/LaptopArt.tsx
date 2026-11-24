@@ -1,8 +1,9 @@
+import { useId } from "react";
 import { brandColors, type Laptop } from "@/data/shop";
 
 export default function LaptopArt({ laptop, className = "" }: { laptop: Laptop; className?: string }) {
   const [from, to] = brandColors[laptop.brand];
-  const id = laptop.name.replace(/[^a-z0-9]/gi, "");
+  const id = useId().replace(/[^a-z0-9]/gi, "");
   const silver = laptop.brand === "Apple";
   return (
     <svg viewBox="0 0 320 210" className={className} role="img" aria-label={laptop.name}>

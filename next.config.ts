@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 // Repo name → used as the GitHub Pages base path (https://<user>.github.io/<repo>)
-const repo = "zazz";
+const repo = "zass";
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {

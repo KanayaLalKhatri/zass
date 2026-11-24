@@ -1,25 +1,24 @@
 // ─────────────────────────────────────────────────────────────
-// Zazz — all shop content. Edit here to update the website.
+// Zass — all shop content. Edit here to update the website.
 // Prices are in PKR and are SAMPLE values — update with real stock.
 // ─────────────────────────────────────────────────────────────
 
 export const shop = {
-  name: "Zazz",
+  name: "Zass",
   owner: "Jimi Laptop Traders",
   tagline: "Every brand. New & used. Tested and trusted.",
   intro:
-    "Zazz by Jimi Laptop Traders brings every major laptop brand under one roof — Apple MacBook, HP, Dell, Lenovo, ASUS and Acer. Brand-new sealed pieces and carefully tested used laptops, at honest prices, with warranty and after-sale support.",
+    "Zass by Jimi Laptop Traders brings every major laptop brand under one roof — Apple MacBook, HP, Dell, Lenovo, ASUS and Acer. Brand-new sealed pieces and carefully tested used laptops, at honest prices, with warranty and after-sale support.",
   about: [
-    "Jimi Laptop Traders has been helping students, freelancers, professionals and businesses find the right laptop at the right price. Zazz is our showroom for every budget — from fresh, box-packed machines to premium used laptops.",
+    "Jimi Laptop Traders has been helping students, freelancers, professionals and businesses find the right laptop at the right price. Zass is our showroom for every budget — from fresh, box-packed machines to premium used laptops.",
     "Every used laptop goes through a full check — battery health, keyboard, screen, ports, charging and a clean OS install — before it reaches our shelves. Bulk orders for offices and institutes are welcome.",
   ],
-  // TODO: replace with the shop's real phone / WhatsApp / address
-  phone: "+92 300 0000000",
-  whatsapp: "923000000000",
-  whatsappMessage: "Hi Zazz! I'm interested in a laptop.",
-  email: "info@zazzlaptops.com",
-  address: "Shop #, Laptop Market, Karachi, Pakistan",
-  hours: "Mon – Sat · 11:00 AM – 9:00 PM",
+  contactPerson: "Muhammad Ali Brohi",
+  mobile: "0321-2021809",
+  landline: "021-32270823",
+  whatsapp: "923212021809",
+  whatsappMessage: "Hi Zass! I'm interested in a laptop.",
+  address: "GE-25-27, Ground Floor, Techno City Mall, Hasrat Mohani Road, Karachi-74000",
   stats: [
     { value: "6+", label: "Brands in stock" },
     { value: "New & Used", label: "Every budget" },

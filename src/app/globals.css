@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #e6e6ec;
-  --accent: #64ffda;
-  --accent-2: #7c83ff;
-  --muted: #8892b0;
-  --card: #11131c;
-  --border: #1f2333;
+  --background: #e2ab5b;
+  --foreground: #2a1c0d;
+  --accent: #e8742a;
+  --accent-2: #b4471a;
+  --muted: #4a3520;
+  --card: #fffaf1;
+  --border: #e3c79a;
 }
 
 @theme inline {
@@ -27,7 +27,10 @@ html {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-size: 900px auto;
+  background-repeat: repeat;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,9 +40,8 @@ body {
 /* Animated gradient glow background */
 .glow-bg {
   background:
-    radial-gradient(600px circle at 15% 10%, rgba(124, 131, 255, 0.12), transparent 45%),
-    radial-gradient(500px circle at 85% 30%, rgba(100, 255, 218, 0.08), transparent 45%),
-    radial-gradient(700px circle at 50% 100%, rgba(124, 131, 255, 0.06), transparent 50%);
+    radial-gradient(700px circle at 20% 20%, rgba(255, 248, 230, 0.55), transparent 55%),
+    radial-gradient(600px circle at 85% 40%, rgba(255, 236, 200, 0.4), transparent 55%);
 }
 
 /* Gradient text */
@@ -72,10 +74,10 @@ body {
 .project-card:hover {
   transform: translateY(-6px);
   border-color: var(--accent);
-  box-shadow: 0 20px 40px -20px rgba(100, 255, 218, 0.25);
+  box-shadow: 0 20px 40px -20px rgba(232, 116, 42, 0.35);
 }
 
 ::selection {
-  background: rgba(100, 255, 218, 0.25);
-  color: #fff;
+  background: rgba(232, 116, 42, 0.3);
+  color: #2a1c0d;
 }

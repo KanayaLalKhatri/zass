@@ -2,7 +2,7 @@
 // next/image does NOT auto-add basePath to public assets when images are
 // unoptimized, so we add it manually wherever we render such assets.
 export const BASE_PATH =
-  process.env.NODE_ENV === "production" ? "/zazz" : "";
+  process.env.NODE_ENV === "production" ? "/zass" : "";
 
 export const asset = (p: string): string =>
   p.startsWith("/") ? `${BASE_PATH}${p}` : p;

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { LogOut, Plus, Pencil, Trash2, Star, Upload, X, Loader2, ImagePlus, ArrowLeft, Database } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Star, Upload, X, Loader2, ImagePlus, ArrowLeft, Database, Camera, Search } from "lucide-react";
 import { ZassMark } from "@/components/Sections";
 import { brands, formatPKR, laptops as samples, type Laptop } from "@/data/shop";
 import { backendReady, supabase, fromRow, toRow, uploadImage, deleteImage } from "@/lib/backend";
@@ -24,12 +24,12 @@ const blank: Laptop = {
   images: [],
 };
 
-const input = "w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground outline-none focus:border-accent";
+const input = "w-full rounded-xl border border-border bg-white px-3 py-3 text-base text-foreground outline-none focus:border-accent sm:py-2 sm:text-sm";
 const btn = "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors disabled:opacity-50";
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen px-4 py-6 sm:px-6">
+    <div className="min-h-screen px-3 pb-28 pt-4 sm:px-6 sm:py-6">
       <div className="mx-auto max-w-5xl">{children}</div>
     </div>
   );
@@ -125,6 +125,7 @@ function Editor({ value, onClose, onSaved }: { value: Laptop; onClose: () => voi
       <input
         className={`${input} mt-1`}
         type={type}
+        inputMode={type === "number" ? "numeric" : undefined}
         placeholder={placeholder}
         value={(l[k] as string | number | undefined) ?? ""}
         onChange={(e) => set(k, (type === "number" ? (e.target.value === "" ? undefined : Number(e.target.value)) : e.target.value) as never)}
@@ -133,8 +134,8 @@ function Editor({ value, onClose, onSaved }: { value: Laptop; onClose: () => voi
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm">
-      <div className="my-6 w-full max-w-3xl rounded-2xl border border-border bg-card p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 backdrop-blur-sm sm:p-4">
+      <div className="min-h-full w-full max-w-3xl bg-card p-4 pb-28 shadow-2xl sm:my-6 sm:min-h-0 sm:rounded-2xl sm:border sm:border-border sm:p-6 sm:pb-6">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-xl font-extrabold">{l.id ? "Edit laptop" : "Add laptop"}</h2>
           <button onClick={onClose} className="rounded-full border border-border p-1.5 text-muted hover:text-accent"><X size={18} /></button>
@@ -148,7 +149,7 @@ function Editor({ value, onClose, onSaved }: { value: Laptop; onClose: () => voi
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={u} alt="" className="h-full w-full object-cover" />
                 {i === 0 && <span className="absolute left-1 top-1 rounded bg-accent px-1.5 text-[10px] font-bold text-white">Cover</span>}
-                <div className="absolute inset-x-0 bottom-0 flex justify-between bg-black/60 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute inset-x-0 bottom-0 flex justify-between bg-black/60 p-1.5">
                   {i !== 0 ? <button onClick={() => makeCover(u)} title="Make cover" className="text-white"><Star size={14} /></button> : <span />}
                   <button onClick={() => removeImage(u)} title="Remove" className="text-white"><Trash2 size={14} /></button>
                 </div>
@@ -159,8 +160,12 @@ function Editor({ value, onClose, onSaved }: { value: Laptop; onClose: () => voi
                 <Loader2 className="animate-spin text-accent" />
               </div>
             ))}
-            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-accent/60 bg-white text-xs text-accent hover:bg-accent/5">
-              <ImagePlus size={22} /> Add
+            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-accent/60 bg-white text-xs font-semibold text-accent active:bg-accent/10">
+              <Camera size={22} /> Camera
+              <input type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
+            </label>
+            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-accent/60 bg-white text-xs font-semibold text-accent active:bg-accent/10">
+              <ImagePlus size={22} /> Gallery
               <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
             </label>
           </div>
@@ -199,9 +204,9 @@ function Editor({ value, onClose, onSaved }: { value: Laptop; onClose: () => voi
         </label>
 
         {err && <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{err}</p>}
-        <div className="mt-6 flex justify-end gap-3">
-          <button onClick={onClose} className={`${btn} border border-border bg-white`}>Cancel</button>
-          <button onClick={save} disabled={saving || uploading > 0} className={`${btn} bg-accent text-white hover:bg-accent-2`}>
+        <div className="fixed inset-x-0 bottom-0 z-10 flex gap-3 border-t border-border bg-card/95 p-3 backdrop-blur sm:static sm:mt-6 sm:justify-end sm:border-0 sm:bg-transparent sm:p-0">
+          <button onClick={onClose} className={`${btn} flex-1 border border-border bg-white py-3 sm:flex-none sm:py-2`}>Cancel</button>
+          <button onClick={save} disabled={saving || uploading > 0} className={`${btn} flex-[2] bg-accent py-3 text-white hover:bg-accent-2 sm:flex-none sm:py-2`}>
             {(saving || uploading > 0) && <Loader2 size={16} className="animate-spin" />} {uploading > 0 ? "Uploading…" : "Save"}
           </button>
         </div>
@@ -215,6 +220,8 @@ function Dashboard({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Laptop | null>(null);
   const [msg, setMsg] = useState("");
+  const [q, setQ] = useState("");
+  const shown = rows.filter((r) => `${r.name} ${r.brand} ${r.condition}`.toLowerCase().includes(q.toLowerCase()));
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -251,20 +258,25 @@ function Dashboard({ session }: { session: Session }) {
 
   return (
     <Shell>
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4 shadow">
+      <header className="sticky top-2 z-20 mb-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow backdrop-blur sm:static sm:mb-6 sm:px-5 sm:py-4">
         <div className="flex items-center gap-3">
           <ZassMark size={40} />
           <div>
             <p className="text-lg font-extrabold">Zass Admin</p>
-            <p className="text-xs text-muted">{session.user.email}</p>
+            <p className="hidden text-xs text-muted sm:block">{session.user.email}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <a href="../" className={`${btn} border border-border bg-white`}><ArrowLeft size={16} /> Website</a>
-          <button onClick={() => setEditing({ ...blank })} className={`${btn} bg-accent text-white hover:bg-accent-2`}><Plus size={16} /> Add laptop</button>
-          <button onClick={() => supabase!.auth.signOut()} className={`${btn} border border-border bg-white`}><LogOut size={16} /> Sign out</button>
+        <div className="flex gap-2">
+          <a href="../" title="Website" className={`${btn} border border-border bg-white px-3`}><ArrowLeft size={16} /> <span className="hidden sm:inline">Website</span></a>
+          <button onClick={() => setEditing({ ...blank })} className={`${btn} hidden bg-accent text-white hover:bg-accent-2 sm:inline-flex`}><Plus size={16} /> Add laptop</button>
+          <button onClick={() => supabase!.auth.signOut()} title="Sign out" className={`${btn} border border-border bg-white px-3`}><LogOut size={16} /> <span className="hidden sm:inline">Sign out</span></button>
         </div>
       </header>
+
+      <div className="relative mb-4">
+        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+        <input className={`${input} pl-10`} placeholder="Search laptops…" value={q} onChange={(e) => setQ(e.target.value)} />
+      </div>
 
       {msg && <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{msg}</p>}
 
@@ -285,22 +297,23 @@ function Dashboard({ session }: { session: Session }) {
           </div>
         ) : (
           <ul className="divide-y divide-border">
-            {rows.map((l) => (
-              <li key={l.id} className="flex flex-wrap items-center gap-4 px-5 py-3">
-                <div className="h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-[#2f2c29]">
+            {shown.map((l) => (
+              <li key={l.id} className="flex flex-wrap items-center gap-3 px-4 py-3 sm:gap-4 sm:px-5">
+                <button onClick={() => setEditing(l)} className="h-16 w-20 shrink-0 overflow-hidden rounded-lg bg-[#2f2c29]">
                   {l.images?.[0] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={l.images[0]} alt="" className="h-full w-full object-cover" />
                   ) : (
                     <span className="flex h-full items-center justify-center text-[10px] text-white/60">No photo</span>
                   )}
-                </div>
-                <div className="min-w-0 flex-1">
+                </button>
+                <div className="min-w-0 flex-1" onClick={() => setEditing(l)}>
                   <p className="truncate font-semibold">{l.name}</p>
                   <p className="text-xs text-muted">
                     {l.brand} · {l.condition} · <span className="font-semibold text-accent-2">{formatPKR(l.price)}</span> · {l.images?.length ?? 0} photos
                   </p>
                 </div>
+                <div className="flex w-full items-center gap-2 sm:w-auto">
                 <button onClick={() => patch(l, { featured: !l.featured })} title="Featured" className={`rounded-full border px-3 py-1 text-xs ${l.featured ? "border-accent bg-accent text-white" : "border-border"}`}>
                   <Star size={12} className="inline" /> Featured
                 </button>
@@ -308,12 +321,23 @@ function Dashboard({ session }: { session: Session }) {
                   {l.sold ? "Sold" : "In stock"}
                 </button>
                 <button onClick={() => setEditing(l)} title="Edit" className="rounded-lg border border-border p-2 hover:text-accent"><Pencil size={15} /></button>
+                <span className="flex-1 sm:hidden" />
                 <button onClick={() => remove(l)} title="Delete" className="rounded-lg border border-border p-2 hover:text-red-600"><Trash2 size={15} /></button>
+                </div>
               </li>
             ))}
           </ul>
         )}
       </div>
+
+      {!editing && (
+        <button
+          onClick={() => setEditing({ ...blank })}
+          className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-accent px-6 py-4 font-bold text-white shadow-xl shadow-accent/40 active:scale-95 sm:hidden"
+        >
+          <Plus size={22} /> Add laptop
+        </button>
+      )}
 
       {editing && (
         <Editor

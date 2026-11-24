@@ -7,7 +7,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import LaptopArt from "./LaptopArt";
-import { shop, brands, laptops, reasons, brandColors, formatPKR } from "@/data/shop";
+import { shop, brands, laptops, reasons, colorsFor, formatPKR } from "@/data/shop";
+import { useLaptops, backendReady } from "@/lib/backend";
 
 const wa = `https://wa.me/${shop.whatsapp}?text=${encodeURIComponent(shop.whatsappMessage)}`;
 
@@ -75,7 +76,11 @@ export function Navbar() {
 }
 
 export function Hero() {
-  const picks = (["Apple", "Dell", "ASUS"] as const).map((b) => laptops.find((l) => l.featured && l.brand === b)!);
+  const { list } = useLaptops();
+  const sample = (["Apple", "Dell", "ASUS"] as const).map((b) => laptops.find((l) => l.featured && l.brand === b)!);
+  const live = [...list.filter((l) => l.featured && !l.sold), ...list.filter((l) => !l.featured && !l.sold)].slice(0, 3);
+  const picks = live.length === 3 ? live : sample;
+  const showPrice = live.length === 3 || !backendReady;
   return (
     <section className="glow-bg relative flex min-h-screen items-center px-6 pt-24">
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
@@ -108,18 +113,25 @@ export function Hero() {
           <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(124,131,255,0.35),transparent_65%)] blur-3xl" />
           {picks.map((l, i) => (
             <motion.div
-              key={l.name}
+              key={l.id ?? l.name}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: [0, -10, 0] }}
               transition={{ opacity: { delay: 0.3 + i * 0.15 }, y: { duration: 5 + i, repeat: Infinity, ease: "easeInOut", delay: i } }}
               className={`absolute w-[56%] ${["left-0 top-0 z-10 -rotate-6", "right-0 top-[22%] z-20 rotate-3", "left-[14%] bottom-0 z-30"][i]}`}
             >
               <div className="rounded-2xl border border-border bg-card/80 p-3 shadow-2xl backdrop-blur">
-                <LaptopArt laptop={l} className="w-full" />
-                <div className="flex items-center justify-between px-1 pt-1 text-xs">
-                  <span className="font-semibold text-foreground">{l.name}</span>
-                  <span className="font-mono" style={{ color: brandColors[l.brand][0] }}>{formatPKR(l.price)}</span>
-                </div>
+                {l.images?.length ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={l.images[0]} alt={l.name} className="aspect-[16/10] w-full rounded-xl object-cover" />
+                ) : (
+                  <LaptopArt laptop={l} className="w-full" />
+                )}
+                {showPrice && (
+                  <div className="flex items-center justify-between px-1 pt-1 text-xs">
+                    <span className="font-semibold text-foreground">{l.name}</span>
+                    <span className="font-mono" style={{ color: colorsFor(l.brand)[0] }}>{formatPKR(l.price)}</span>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -136,7 +148,7 @@ export function Brands() {
         <p className="text-center font-mono text-xs uppercase tracking-widest text-muted">All major brands under one roof</p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-5">
           {brands.map((b) => (
-            <span key={b} className="text-2xl font-extrabold tracking-tight opacity-80 transition-opacity hover:opacity-100" style={{ color: brandColors[b][0] }}>
+            <span key={b} className="text-2xl font-extrabold tracking-tight opacity-80 transition-opacity hover:opacity-100" style={{ color: colorsFor(b)[0] }}>
               {b}
             </span>
           ))}
@@ -244,7 +256,10 @@ export function Footer() {
         <p className="text-center">
           © {new Date().getFullYear()} {shop.name} · {shop.owner}. All rights reserved.
         </p>
-        <p className="font-mono text-xs">{shop.tagline}</p>
+        <p className="flex items-center gap-4 font-mono text-xs">
+          {shop.tagline}
+          <a href="admin/" className="rounded border border-border px-2 py-0.5 hover:border-accent hover:text-accent">Admin</a>
+        </p>
       </div>
     </footer>
   );

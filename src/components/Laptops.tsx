@@ -6,7 +6,8 @@ import { Cpu, MemoryStick, HardDrive, Monitor, X, Check } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import SectionHeading from "./SectionHeading";
 import LaptopArt from "./LaptopArt";
-import { laptops, brands, brandColors, formatPKR, shop, type Laptop } from "@/data/shop";
+import { brands, colorsFor, formatPKR, shop, type Laptop } from "@/data/shop";
+import { useLaptops } from "@/lib/backend";
 
 const conditions = ["All", "New", "Used"] as const;
 
@@ -26,10 +27,17 @@ export default function Laptops() {
   const [cond, setCond] = useState<(typeof conditions)[number]>("All");
   const [brand, setBrand] = useState<string>("All");
   const [active, setActive] = useState<Laptop | null>(null);
+  const [shot, setShot] = useState(0);
+  const { list: all, loading } = useLaptops();
 
-  const list = laptops.filter(
-    (l) => (cond === "All" || l.condition === cond) && (brand === "All" || l.brand === brand)
-  );
+  const brandList = Array.from(new Set([...brands, ...all.map((l) => l.brand)]));
+  const list = all
+    .filter((l) => (cond === "All" || l.condition === cond) && (brand === "All" || l.brand === brand))
+    .sort((a, b) => Number(Boolean(a.sold)) - Number(Boolean(b.sold)));
+  const open = (l: Laptop) => {
+    setShot(0);
+    setActive(l);
+  };
 
   const chip = (on: boolean) =>
     `rounded-full border px-4 py-1.5 text-sm transition-colors ${
@@ -48,7 +56,7 @@ export default function Laptops() {
         ))}
       </div>
       <div className="mb-10 flex flex-wrap gap-2">
-        {["All", ...brands].map((b) => (
+        {["All", ...brandList].map((b) => (
           <button key={b} className={chip(brand === b)} onClick={() => setBrand(b)}>
             {b === "All" ? "All brands" : b}
           </button>
@@ -58,31 +66,41 @@ export default function Laptops() {
       <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {list.map((l) => {
-            const [from] = brandColors[l.brand];
+            const [from] = colorsFor(l.brand);
             return (
               <motion.button
                 layout
-                key={l.name}
+                key={l.id ?? l.name}
                 type="button"
-                onClick={() => setActive(l)}
+                onClick={() => open(l)}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.35 }}
-                className="project-card group flex flex-col rounded-2xl border border-border bg-card text-left"
+                className={`project-card group flex flex-col rounded-2xl border border-border bg-card text-left ${l.sold ? "opacity-70" : ""}`}
               >
                 <div
                   className="relative flex h-48 items-center justify-center overflow-hidden rounded-t-2xl px-6"
                   style={{ background: `radial-gradient(120% 100% at 50% 0%, ${from}33, transparent 65%), #2f2c29` }}
                 >
                   <span
-                    className={`absolute left-4 top-4 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold ${
+                    className={`absolute left-4 top-4 z-10 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold ${
                       l.condition === "New" ? "bg-accent text-white" : "bg-amber-400 text-black"
                     }`}
                   >
                     {l.condition}
                   </span>
-                  <LaptopArt laptop={l} className="w-full max-w-[240px] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]" />
+                  {l.sold && (
+                    <span className="absolute right-4 top-4 z-10 rounded-full bg-red-600 px-2.5 py-1 font-mono text-[11px] font-semibold text-white">
+                      Sold
+                    </span>
+                  )}
+                  {l.images?.length ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={l.images[0]} alt={l.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]" />
+                  ) : (
+                    <LaptopArt laptop={l} className="w-full max-w-[240px] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]" />
+                  )}
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <p className="font-mono text-xs" style={{ color: from }}>{l.brand}</p>
@@ -108,7 +126,14 @@ export default function Laptops() {
           })}
         </AnimatePresence>
       </motion.div>
-      {list.length === 0 && <p className="py-10 text-center text-muted">No laptops match this filter right now — ask us on WhatsApp.</p>}
+      {loading && (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-80 animate-pulse rounded-2xl border border-border bg-card/70" />
+          ))}
+        </div>
+      )}
+      {!loading && list.length === 0 && <p className="rounded-xl bg-card/80 py-10 text-center text-muted">No laptops match this filter right now — ask us on WhatsApp.</p>}
 
       <AnimatePresence>
         {active && (
@@ -133,14 +158,31 @@ export default function Laptops() {
                 <X size={18} />
               </button>
               <div className="grid items-center gap-6 md:grid-cols-2">
-                <div
-                  className="flex items-center justify-center rounded-xl p-6"
-                  style={{ background: `radial-gradient(110% 90% at 50% 0%, ${brandColors[active.brand][0]}33, transparent 65%), #2f2c29` }}
-                >
-                  <LaptopArt laptop={active} className="w-full" />
-                </div>
+                {active.images?.length ? (
+                  <div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={active.images[shot] ?? active.images[0]} alt={active.name} className="aspect-[4/3] w-full rounded-xl bg-[#2f2c29] object-contain" />
+                    {active.images.length > 1 && (
+                      <div className="mt-3 flex gap-2 overflow-x-auto">
+                        {active.images.map((src, i) => (
+                          <button key={src} onClick={() => setShot(i)} className={`h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 ${i === shot ? "border-accent" : "border-transparent"}`}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={src} alt="" className="h-full w-full object-cover" />
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    className="flex items-center justify-center rounded-xl p-6"
+                    style={{ background: `radial-gradient(110% 90% at 50% 0%, ${colorsFor(active.brand)[0]}33, transparent 65%), #2f2c29` }}
+                  >
+                    <LaptopArt laptop={active} className="w-full" />
+                  </div>
+                )}
                 <div>
-                  <p className="font-mono text-xs text-accent">{active.brand} · {active.condition}</p>
+                  <p className="font-mono text-xs text-accent">{active.brand} · {active.condition}{active.sold ? " · Sold" : ""}</p>
                   <h3 className="mt-1 text-2xl font-bold">{active.name}</h3>
                   {active.oldPrice && <p className="mt-2 text-sm text-muted line-through">{formatPKR(active.oldPrice)}</p>}
                   <p className="text-3xl font-extrabold gradient-text">{formatPKR(active.price)}</p>

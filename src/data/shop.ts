@@ -31,8 +31,9 @@ export const brands = ["Apple", "HP", "Dell", "Lenovo", "ASUS", "Acer"] as const
 export type Brand = (typeof brands)[number];
 
 export type Laptop = {
+  id?: string;
   name: string;
-  brand: Brand;
+  brand: string;
   condition: "New" | "Used";
   price: number;
   oldPrice?: number;
@@ -44,6 +45,8 @@ export type Laptop = {
   highlights: string[];
   warranty: string;
   featured?: boolean;
+  sold?: boolean;
+  images?: string[];
 };
 
 export const laptops: Laptop[] = [
@@ -214,7 +217,7 @@ export const reasons = [
   { icon: "Wrench", title: "After-sale support", text: "OS install, upgrades (RAM/SSD) and repairs at the shop." },
 ];
 
-export const brandColors: Record<Brand, [string, string]> = {
+export const brandColors: Record<string, [string, string]> = {
   Apple: ["#6b7280", "#1f2937"],
   HP: ["#38bdf8", "#0369a1"],
   Dell: ["#3b82f6", "#1e3a8a"],
@@ -224,3 +227,5 @@ export const brandColors: Record<Brand, [string, string]> = {
 };
 
 export const formatPKR = (n: number) => "Rs " + n.toLocaleString("en-PK");
+
+export const colorsFor = (brand: string): [string, string] => brandColors[brand] ?? ["#f0883e", "#b4471a"];

@@ -1,8 +1,8 @@
 import { useId } from "react";
-import { brandColors, type Laptop } from "@/data/shop";
+import { colorsFor, type Laptop } from "@/data/shop";
 
 export default function LaptopArt({ laptop, className = "" }: { laptop: Laptop; className?: string }) {
-  const [from, to] = brandColors[laptop.brand];
+  const [from, to] = colorsFor(laptop.brand);
   const id = useId().replace(/[^a-z0-9]/gi, "");
   const silver = laptop.brand === "Apple";
   return (
